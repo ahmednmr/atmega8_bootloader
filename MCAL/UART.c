@@ -4,21 +4,23 @@
  *  Created on: Oct 11, 2019
  *      Author: Nmr
  */
-#include <avr/io.h>
+
 #include "UART.h"
 
 
 
 //  0x019f   1200 baudrate
-//  0x0681   2400 baud rate
+//  207      2400 baud rate
+//  103      4800 baudrate
+//  51       9600 baudrate
 
 
 void init_UART(void)
 {
 		UCSRB = (1 << RXEN) | (1 << TXEN);
        UCSRC = (1 << URSEL) | (3 << UCSZ0);
-		UBRRL =0x9F;
-		UBRRH =0x01;
+		UBRRL =207;
+		UBRRH =0;
 }
 
 void DE_init_UART(void)
@@ -91,5 +93,16 @@ void UART_SEND_number(int number)
 
 
 }
+
+void UART_SEND_long_number(long number)
+{
+   char buffer[20];
+
+   ultoa(number,buffer,10);
+   UART_SEND_string(buffer);
+
+
+}
+
 
 
